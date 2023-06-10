@@ -1,7 +1,7 @@
 <script lang="ts">
 import { RouterView } from 'vue-router'
 import { defineComponent } from "vue";
-import Header from "./components/HeaderView.vue";
+import Header from "./components/Header.vue";
 
 export default defineComponent({
   name: "App",
