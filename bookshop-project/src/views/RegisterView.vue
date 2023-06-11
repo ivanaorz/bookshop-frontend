@@ -15,7 +15,7 @@
 import { defineComponent } from 'vue';
 import UsernamePassword from '../components/UsernamePassword.vue';
 import type { SignupAuthDetails } from '../model/authDetails';
-import authService from '@/service/authService';
+import authService from '../service/authService';
 
 export default defineComponent({
 name: 'RegisterView',
@@ -35,7 +35,7 @@ methods: {
   try {
     const { username, password} = this.authDetails;
 
-    const user = await authService.registerAccount(username, password);
+    const user = await authService.register(username, password);
 
     user.role = 'USER';
 
