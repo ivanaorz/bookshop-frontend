@@ -18,7 +18,7 @@
 import { defineComponent } from 'vue';
 import UsernamePassword from '../components/UsernamePassword.vue';
 import type { SigninAuthDetails } from '../model/authDetails';
-import authService from '@/service/authService';
+import authService from '../service/authService';
 
 export default defineComponent({
   name: 'LoginView',
@@ -38,7 +38,7 @@ export default defineComponent({
       try {
         const { username, password } = this.authDetails;
 
-        const user = await authService.signIn(username, password);
+        const user = await authService.login(username, password);
 
         if (user.role === 'ADMIN') {
           this.$router.push('/admin/books');

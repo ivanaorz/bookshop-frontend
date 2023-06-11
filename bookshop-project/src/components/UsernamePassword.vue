@@ -15,7 +15,7 @@
 import { defineComponent, ref } from "vue";
 import { type PropType } from "vue";
 import type { SignupAuthDetails } from '../model/authDetails';
-import authService from '@/service/authService';
+import authService from '../service/authService';
 export default defineComponent ({
     name: 'UsernamePassword',
     props: {
