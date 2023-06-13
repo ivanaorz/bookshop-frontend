@@ -1,11 +1,11 @@
 <template>
     <div class="username-and-password">
         <div>
-            <label>Username</label>
+            <label class="username-label">Username</label>
             <input class="username" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
         </div>
         <div>
-            <label>Password</label>
+            <label class="password-label">Password</label>
             <input class="password" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
         </div>
     </div>
@@ -43,9 +43,13 @@ export default defineComponent ({
 
 <style scoped>
 .username-and-password {
+  align-items: center;
   display: flex;
   justify-content: center;
   gap: 30px;
+}
+.username-label, .password-label {
+    font-size: 30px;
 }
 .username, .password {
     font-size: 20px;
