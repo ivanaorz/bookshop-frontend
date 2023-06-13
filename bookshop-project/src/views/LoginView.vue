@@ -1,16 +1,17 @@
 <template>
     <div class="login-container">
-      <h1 class="login-header">Login</h1>
+      <div class="login-header">
+      <h1 class="login-title">Login</h1>
+    </div>
       <form @submit.prevent="handleSubmit">
       <UsernamePassword :afterSubmit="signIn"/>
   
       <p class="signup-link">No account? Sign up <router-link to="/register">here!</router-link></p>
   
       <button class="signin-button" @click="signIn">Sign in</button>
+      <button class="guest-button" @click="proceedAsGuest">Proceed as guest user</button>
       </form>
 
-      <!-- <button class="guest-user-button"><router-link to="/guest"></router-link>Proceed as guest user</router-link></button> -->
-      <router-link to="/guest" class="guest-button">Proceed as guest user</router-link>
     </div>
   </template>
 
@@ -33,12 +34,12 @@ export default defineComponent({
       } as SigninAuthDetails,
     };
   },
-  methods: {
+   methods: {
     async handleSubmit() {
       try {
         const { username, password } = this.authDetails;
 
-        const user = await authService.login(username, password);
+        const user = await authService.login(this.authDetails);
 
         if (user.role === 'ADMIN') {
           this.$router.push('/admin/books');
@@ -51,41 +52,75 @@ export default defineComponent({
         console.error('Sign-in failed:', error);
       }
     },
+    async proceedAsGuest() {
+
+    },
     async signIn() {
       await this.handleSubmit();
     },
   },
 });
-</script>
+</script> 
 
 <style scoped>
 .login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
   background-color: lightblue;
+  text-align: center;
   padding: 20px;
+  width: 50%;
+  border: 2px solid grey;
 }
 
 .login-header {
   color: white;
-  background-color: darkblue;
-  padding: 10px;
+  background-color: darkgrey;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  width: 90%;
   text-align: center;
+  margin-top: 3px;
+  margin-bottom: 10px;
+  height: 50vh;
+  border: 1px grey;
+}
+
+.login-title {
+  color: white;
+  text-align: center;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px; 
 }
 
 .signup-link {
   text-align: center;
   margin-top: 10px;
+  font-size: 20px;
 }
 
 .signin-button {
+  width: 50%;
+  font-size: 20px;
+  padding: 0.25em 1em;
+  margin-bottom: 1em;
   display: block;
-  margin: 20px auto;
+  margin: 20px auto; 
+  text-align: center;
 }
 
 .guest-button {
+  width: 50%;
+  font-size: 20px;
+  padding: 0.25em 1em;
+  margin-bottom: 1em;
   display: block;
-  margin: 10px auto;
+  margin: 20px auto; 
   text-align: center;
-  text-decoration: underline;
-  cursor: pointer;
 }
 </style>

@@ -1,16 +1,16 @@
 <script lang="ts">
 import { RouterView } from 'vue-router'
 import { defineComponent } from "vue";
-import Header from "./components/Header.vue";
+import AppHeader from "./components/AppHeader.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    Header,
+    AppHeader,
   },
   data() {
     return {
-      bookshopName: "Booksters website",
+      // bookshopName: "Booksters website",
     };
   },
 });
@@ -18,11 +18,23 @@ export default defineComponent({
 
 <template>
    <div id="app">
-    <top-header :title="bookshopName" />
+    
+    <div class="main-container">
+      <AppHeader title="Booksters website" />
   <RouterView />
+</div>
 </div>
 </template>
 
 <style scoped>
+.main-container {
+  background-color: lightgray;
+  margin: 1cm;
+  padding: 1cm;
+  align-items: center;
+  border: 3px solid grey;
+  width: 80vw;
+  height: 95vh;
+}
 
 </style>

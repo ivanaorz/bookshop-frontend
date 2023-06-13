@@ -8,7 +8,7 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "Header",
+  name: "AppHeader",
   props: {
     title: {
       type: String,
@@ -19,11 +19,14 @@ export default defineComponent({
 });
 </script>
 
-<Style scoped>
-header {
-  background-color: rgb(116, 200, 220);
-  text-align: center;
-  padding: 1.5em;
+<style scoped>
+.header-name {
+  background-color: lightblue;
+  height: calc(12.5% - 1cm); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5em; 
   margin-bottom: 1em;
 }
-</Style>
+</style>
