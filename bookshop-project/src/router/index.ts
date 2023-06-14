@@ -6,7 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 // import GuestView from '@/views/GuestView.vue';
 import LoginView from '@/views/LoginView.vue';
 import RegisterView from '@/views/RegisterView.vue';
-// import UserView from '@/views/UserView.vue';
+import UserView from '@/views/UserView.vue';
 
 
 const router = createRouter({
@@ -33,11 +33,11 @@ const router = createRouter({
       // name: 'guest',
       // component: GuestView
       //  },
-      //  {
-      // path: '/user',
-      // name: 'user',
-      // component: UserView
-      //  },
+       {
+      path: '/user',
+      name: 'user',
+      component: UserView
+       },
       //  {
       // path: '/admin/books',
       // name: 'adminBooks',
