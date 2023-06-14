@@ -1,3 +1,10 @@
+/**This file uses the Vue Router library to create and configure 
+  the application's routing system. It defines the different URLs or routes that 
+  the application can have and specifies which components(Views)
+  should be displayed when the user visits those URLs. There also must be a home route,
+  that is the first page. I made the RegisterView as the initial page of the application.
+ */
+
 import { createRouter, createWebHistory } from 'vue-router'
 // import AdminBooksEditView from '@/views/AdminBooksEditView.vue';
 // import AdminBooksView from '@/views/AdminBooksView.vue';

@@ -1,3 +1,9 @@
+/**This file provides functions for interacting with a book service API 
+  such as fetching all books, searching for books, purchasing a book, 
+  deleting a book, updating a book, and adding a new book. Each function 
+  sends a specific request like GET, POST, PUT, DELETE to the base book URL appended 
+  with a specific endpoint to execute a certain action like for example deleting a book,
+  getting all books, updating a book */
 import tokenAxios from "@/interceptor/tokenAxios";
 import type { BookDetails } from "@/model/bookDetails";
 

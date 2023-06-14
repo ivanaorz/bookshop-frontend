@@ -1,3 +1,6 @@
+/**This file provides a set of functions to store, retrieve, clear, and decode JWT tokens
+   in order to manage effectively authentication and authorization processes, providing a secure 
+   and efficient way to identify and verify the user's identity and permissions.*/
 import cacheService from "../service/cacheService";
 
 const JWT_TOKEN_KEY = "JWT_TOKEN";

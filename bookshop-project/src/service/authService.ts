@@ -1,3 +1,7 @@
+/**This file handles authentication-related operations. It includes functions 
+  that  perform such tasks as user registration, login, and logout.
+  There must be a  base URL of the authentication API to which are attached 
+  specific endpoints depending on the function. */
 import type { SigninAuthDetails, SignupAuthDetails } from "../model/authDetails";
 import axios from "axios";
 import jwtService from "../service/jwtService";
