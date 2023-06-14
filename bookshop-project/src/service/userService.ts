@@ -1,3 +1,6 @@
+/** This file provides a set of functions responsible for interacting with 
+   the server-side API's user-related endpoints. It provides functionality for 
+   fetching all users, retrieving user profiles, assigning admin roles to users, and deleting users. */
 import tokenAxios from "@/interceptor/tokenAxios";
 import type { UserDetails } from "@/model/userDetails";
 
