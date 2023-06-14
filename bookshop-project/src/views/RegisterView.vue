@@ -55,17 +55,6 @@ methods: {
 
 <style scoped>
 .register-container {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
-  background-color: lightblue;
-  text-align: center;
-  padding: 5px;
-  width: 50%;
-  border: 2px solid grey; */
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,15 +68,6 @@ methods: {
 }
 
 .register-header {
-  /* background-color: darkgrey;
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  width: 90%;
-  height: 25%;
-  border: 1px grey; */
-
-
   color: white;
   background-color: darkgrey;
   padding: 5px;
@@ -107,12 +87,6 @@ methods: {
   font-size: 30px;
   margin-top: 10px;
   margin-bottom: 10px; 
-
-  /* color: white;
-  text-align: center;
-  font-size: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px;  */
 }
 
 .login-link {

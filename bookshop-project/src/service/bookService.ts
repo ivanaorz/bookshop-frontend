@@ -15,7 +15,7 @@ export default {
   },
 
   
-  async purchaseBook(title: string, quantity: string): Promise<any> {
+  async purchaseBook(title: string, quantity: number): Promise<any> {
     const resp = await tokenAxios.post(BASE_BOOK_URL + `/library/user/books${title},${quantity}`);
     return resp.data;
   },

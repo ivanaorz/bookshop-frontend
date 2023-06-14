@@ -31,15 +31,17 @@ export default defineComponent({
 
 <style scoped>
 .search-query {
-  width: 100%;
+  width: 50%;
   margin-bottom: 0.5em;
   padding: 0.5rem;
   background-color: white;
+  height: 5em;
 }
 
 .search-input {
   width: 100%;
   color: black;
   font-size: 24px;
+  height: 2.5em;
 }
 </style>
