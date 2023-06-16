@@ -1,6 +1,12 @@
+/** This is the page for registered users where thay can see search for and order books. */
 <template>
-    
     <div class="user-view">
+
+     
+      <div class="signout-section">
+        <SignOut />
+      </div>
+
       <div class="search-section">
         <SearchQuery />
       </div>
@@ -44,7 +50,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SearchQuery from '../components/SearchQuery.vue';
+import SignOut from '../components/SignOut.vue';
 import bookService from '../service/bookService';
+import authService from '../service/authService';
 import type { BookDetails } from '../model/bookDetails';
 import axios from "axios";
 import jwtService from '../service/jwtService';
@@ -52,13 +60,15 @@ import jwtService from '../service/jwtService';
 export default defineComponent({
   name: 'UserView',
   components: {
-    SearchQuery,
+    SearchQuery, SignOut,
   },
   data() {
     return {
         query: "",
         books: [] as BookDetails[],
         bookList: [] as BookDetails [],
+        role: "",
+  
       
     };
   },
@@ -89,6 +99,7 @@ export default defineComponent({
         console.error('Failed to fetch books:',error);
       }
     },
+    
   },
 });
 </script>

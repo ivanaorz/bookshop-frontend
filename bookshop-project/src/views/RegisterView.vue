@@ -1,10 +1,11 @@
+/** This is the register page where users can register an account. */
 <template>
   <div class="register-container">
     <div class="register-header">
     <h1 class="register-title">Register</h1>
      </div>
     <!-- <form @submit.prevent="handleSubmit"> -->
-    <!-- <UsernamePassword @sendUserDetails="registerAccount" /> -->
+    <UsernamePassword :afterSubmit="registerAccount" />
     <div>
             <label class="username-label">Username</label>
             <input class="username" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
@@ -42,22 +43,28 @@ data() {
       message: "",
     };
   },
+
 methods: {
-
-async handleRegister() {
-    this.message = await authService.register(this.authDetails);
-    // this.$router.push('library/books');
+    async registerAccount() {
+      try {
+        this.message = await authService.register(this.authDetails);
+        if (this.message !== 'The account already exists') {
+          await this.handleSignIn();
+          this.$router.push('/library/books');
+        }
+      } catch (error) {
+        console.error('Registration failed:', error);
+      }
+    },
+    async handleSignIn() {
+      try {
+        await authService.login(this.authDetails);
+      } catch (error) {
+        console.error('Sign-in failed:', error);
+      }
+    },
   },
- registerAccount() {
-
- console.log("username", this.authDetails.username)
- console.log("password", this.authDetails.password)
- this.handleRegister()
  
-  },
- 
-
-  },
 });
 </script>
 

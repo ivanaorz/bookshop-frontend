@@ -1,3 +1,4 @@
+/** This component has the purpose to search users. It is imported in AdminView. */
 <template>
     <div class="search-username">
       <input

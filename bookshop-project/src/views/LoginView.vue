@@ -1,3 +1,5 @@
+/** This is login page where registered users can log in and those users who are not registered 
+     can proceed as guest users. */
 <template>
     <div class="login-container">
       <div class="login-header">
@@ -35,46 +37,31 @@ export default defineComponent({
       
     };
   },
-   methods: {
-    // async handleSubmit() {
-    //   try {
-    //     const { username, password } = this.authDetails;
-
-    //     const user = await authService.login(this.authDetails);
-
-    //     if (user.role === 'ADMIN') {
-    //       this.$router.push('/admin/books');
-    //     } else if (user.role === 'USER') {
-    //       this.$router.push('/user');
-    //     } else {
-    //       this.$router.push('/login');
-    //     }
-    //   } catch (error) {
-    //     console.error('Sign-in failed:', error);
-    //   }
-    // },
-    async proceedAsGuest() {
-      this.$router.push('/guest')
-
-    },
-    signIn() {
-      this.handleSignIn()
-
+  
+  methods: {
+    async signIn() {
+      try {
+        await this.handleSignIn();
+      } catch (error) {
+        console.error('Sign-in failed:', error);
+      }
     },
     async handleSignIn() {
-    //  this.handleSubmit();
-    const { username, password } = this.authDetails;
-
+      try {
         const user = await authService.login(this.authDetails);
-
         if (user.role === 'ADMIN') {
-          this.$router.push('admin/books');
+          this.$router.push('/admin/books');
         } else {
-          this.$router.push('library/books');
+          this.$router.push('/library/books');
         }
+      } catch (error) {
+        console.error('Sign-in failed:', error);
+      }
+    },
+    async proceedAsGuest() {
+      this.$router.push('/guest');
     },
   },
-
   
 });
 </script> 

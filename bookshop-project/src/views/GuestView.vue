@@ -1,33 +1,21 @@
+/** This is the guest page - a user that doesn't require to be registered in order to search and see books. */
 <template>
     
     <div class="guest-view">
+
+      <div class="signout-section">
+        <SignOut />
+      </div>
+
+
       <div class="search-section">
         <SearchQuery />
       </div>
 
-      <div v-if="bookList.length !==0">
-      <table class="book-table">
+      <div clas="table-section">
+        <BooksTable />
+      </div>
 
-        <thead>
-          <tr>
-            <th>Book title</th>
-            <th>Book author</th>
-            <th>Availability</th>
-            <th>Order</th>
-          </tr>
-        </thead>
-
-        <tbody>
-            <tr v-for="book in books" :key="book.title">
-          <td>{{ book.title }}</td>
-          <td>{{ book.author }}</td>
-          <td>{{ book.quantity }}</td>
-
-        </tr>
-      </tbody>
-
-    </table>
-    </div>
    </div>
   
 </template>
@@ -35,6 +23,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SearchQuery from '../components/SearchQuery.vue';
+import SignOut from '../components/SignOut.vue';
+import BooksTable from '../components/BooksTable.vue';
 import bookService from '../service/bookService';
 import type { BookDetails } from '../model/bookDetails';
 import axios from "axios";
@@ -43,13 +33,14 @@ import jwtService from '../service/jwtService';
 export default defineComponent({
   name: 'GuestView',
   components: {
-    SearchQuery,
+    SearchQuery, BooksTable, SignOut,
   },
   data() {
     return {
         query: "",
         books: [] as BookDetails[],
         bookList: [] as BookDetails [],
+        role: "",
       
     };
   },
@@ -67,6 +58,8 @@ export default defineComponent({
 },
 });
 </script>
+
+
 <style scoped>
 
 .search-section {
