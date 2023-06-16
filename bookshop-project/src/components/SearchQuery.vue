@@ -1,3 +1,4 @@
+/** This component was created so that users can search for books. It is imported multiple times. */
 <template>
     <div class="search-query">
       <input

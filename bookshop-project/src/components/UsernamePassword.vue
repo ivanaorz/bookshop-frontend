@@ -1,3 +1,4 @@
+/** This component represents the input form for username and password. */
 <template>
     <div class="username-and-password">
         <form @submit.prevent="handleSubmit">

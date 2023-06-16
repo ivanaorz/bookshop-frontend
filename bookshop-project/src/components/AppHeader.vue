@@ -1,3 +1,4 @@
+/** This component is installed globally in the file main.ts in order to be displayed on every page.  */
 <template>
     <header>
         <h1 class="header-name"> {{ title }}</h1>
@@ -15,7 +16,6 @@ export default defineComponent({
       required: true,
     },
   },
-  components: {},
 });
 </script>
 

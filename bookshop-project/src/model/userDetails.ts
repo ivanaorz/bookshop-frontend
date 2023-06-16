@@ -2,5 +2,6 @@
 export interface UserDetails {
     username: string;
     role: string;
+    purchases: number;
   }
   
