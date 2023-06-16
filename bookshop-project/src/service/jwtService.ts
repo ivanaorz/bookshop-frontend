@@ -4,14 +4,23 @@
 import cacheService from "../service/cacheService";
 
 const JWT_TOKEN_KEY = "JWT_TOKEN";
+interface Token {
+  accessToken: string;
+  expiration: string;
+}
 
 interface TokenPayload {
   role: string;
 }
+// export default {
+//     storeJwt(token: Token): void {
+//       cacheService.storeLocal(JWT_TOKEN_KEY, token);
+//     },
 export default {
-    storeJwt(token: string): void {
-      cacheService.storeLocal(JWT_TOKEN_KEY, token);
-    },
+  storeJwt(token: Token): void {
+    const tokenString = JSON.stringify(token);
+    cacheService.storeLocal(JWT_TOKEN_KEY, tokenString);
+  },
     getJwt(): string | null {
       return cacheService.fetchLocal(JWT_TOKEN_KEY);
     },

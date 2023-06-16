@@ -3,13 +3,22 @@
     <div class="register-header">
     <h1 class="register-title">Register</h1>
      </div>
-    <form @submit.prevent="handleSubmit">
-    <UsernamePassword :afterSubmit="registerAccount" />
+    <!-- <form @submit.prevent="handleSubmit"> -->
+    <!-- <UsernamePassword @sendUserDetails="registerAccount" /> -->
+    <div>
+            <label class="username-label">Username</label>
+            <input class="username" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
+        </div>
+        <div>
+            <label class="password-label">Password</label>
+            <input class="password" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
+        </div>
+        <p>{{ message }}</p>
 
     <p class="login-link">Already have an account? Sign in <router-link to="/login"> here!</router-link></p>
 
     <button class="register-button" @click="registerAccount">Register new account</button>
-    </form>
+    <!-- </form> -->
   </div>
 </template>
 
@@ -30,26 +39,25 @@ data() {
         username: '',
         password: '',
       } as SignupAuthDetails,
+      message: "",
     };
   },
 methods: {
-  async handleSubmit() {
-  try {
-    const { username, password} = this.authDetails;
 
-    const user = await authService.register(this.authDetails);
-
-    user.role = 'USER';
-
-    this.$router.push('/user');
-  } catch (error) {
-    console.error('Sign-up failed:', error);
-  }
- },
- async registerAccount() {
-    await this.handleSubmit();
+async handleRegister() {
+    this.message = await authService.register(this.authDetails);
+    // this.$router.push('library/books');
   },
- },
+ registerAccount() {
+
+ console.log("username", this.authDetails.username)
+ console.log("password", this.authDetails.password)
+ this.handleRegister()
+ 
+  },
+ 
+
+  },
 });
 </script>
 

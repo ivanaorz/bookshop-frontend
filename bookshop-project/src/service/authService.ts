@@ -8,17 +8,21 @@ import jwtService from "../service/jwtService";
 import { useRouter } from 'vue-router';
 import type { UserDetails } from "@/model/userDetails";
 
-const BASE_AUTH_URL = 'http://127.0.0.1:8080';
+const BASE_AUTH_URL = 'http://127.0.0.1:3000/auth/';
 
 export default {
-    async register(authDetails: SignupAuthDetails): Promise<UserDetails> {
-      const resp = await axios.post(BASE_AUTH_URL + "/register", authDetails);
+    async register(authDetails: SignupAuthDetails): Promise<string> {
+      try {const resp = await axios.post(BASE_AUTH_URL + "register", authDetails);
       jwtService.storeJwt(resp.data);
-      return resp.data;
+      return resp.data.message} catch {
+        return "The account already exists"
+      }
+      
+      
     },
   
     async login(authDetails: SigninAuthDetails): Promise<UserDetails> {
-      const resp = await axios.post(BASE_AUTH_URL + "/login", authDetails);
+      const resp = await axios.post(BASE_AUTH_URL + "login", authDetails);
       jwtService.storeJwt(resp.data);
       return resp.data;
     },

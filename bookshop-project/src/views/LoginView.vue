@@ -3,14 +3,14 @@
       <div class="login-header">
       <h1 class="login-title">Login</h1>
     </div>
-      <form @submit.prevent="handleSubmit">
+      <!-- <form @submit.prevent="handleSubmit"> -->
       <UsernamePassword :afterSubmit="signIn"/>
   
       <p class="signup-link">No account? Sign up <router-link to="/register">here!</router-link></p>
   
       <button class="signin-button" @click="signIn">Sign in</button>
       <button class="guest-button" @click="proceedAsGuest">Proceed as guest user</button>
-      </form>
+      <!-- </form> -->
 
     </div>
   </template>
@@ -32,33 +32,50 @@ export default defineComponent({
         username: '',
         password: '',
       } as SigninAuthDetails,
+      
     };
   },
    methods: {
-    async handleSubmit() {
-      try {
-        const { username, password } = this.authDetails;
+    // async handleSubmit() {
+    //   try {
+    //     const { username, password } = this.authDetails;
+
+    //     const user = await authService.login(this.authDetails);
+
+    //     if (user.role === 'ADMIN') {
+    //       this.$router.push('/admin/books');
+    //     } else if (user.role === 'USER') {
+    //       this.$router.push('/user');
+    //     } else {
+    //       this.$router.push('/login');
+    //     }
+    //   } catch (error) {
+    //     console.error('Sign-in failed:', error);
+    //   }
+    // },
+    async proceedAsGuest() {
+      this.$router.push('/guest')
+
+    },
+    signIn() {
+      this.handleSignIn()
+
+    },
+    async handleSignIn() {
+    //  this.handleSubmit();
+    const { username, password } = this.authDetails;
 
         const user = await authService.login(this.authDetails);
 
         if (user.role === 'ADMIN') {
-          this.$router.push('/admin/books');
-        } else if (user.role === 'USER') {
-          this.$router.push('/user');
+          this.$router.push('admin/books');
         } else {
-          this.$router.push('/login');
+          this.$router.push('library/books');
         }
-      } catch (error) {
-        console.error('Sign-in failed:', error);
-      }
-    },
-    async proceedAsGuest() {
-
-    },
-    async signIn() {
-      await this.handleSubmit();
     },
   },
+
+  
 });
 </script> 
 
