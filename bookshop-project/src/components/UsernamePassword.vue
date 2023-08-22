@@ -4,11 +4,11 @@
         <form @submit.prevent="handleSubmit">
         <div>
             <label class="username-label">Username</label>
-            <input class="username" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
+            <input class="username-placeholder" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
         </div>
         <div>
             <label class="password-label">Password</label>
-            <input class="password" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
+            <input class="password-placeholder" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
         </div>
     </form>
     </div>
@@ -48,12 +48,16 @@ export default defineComponent ({
   align-items: center;
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 40px;
+  flex-direction: column;
+  margin-top: 10px;
 }
 .username-label, .password-label {
     font-size: 30px;
 }
-.username, .password {
-    font-size: 20px;
+.username-placeholder, .password-placeholder {
+    font-size: 15px;
+    margin: 5px;
+    border-radius: 0.3rem;
 }
 </style>

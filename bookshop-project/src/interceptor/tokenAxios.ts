@@ -10,12 +10,12 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 const tokenAxios = axios.create();
 
 tokenAxios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const userRole = jwtService.getUserRole();
+  // const userRole = jwtService.getUserRole();
 
-  if (userRole === "ADMIN" || userRole === "USER") {
+  // if (userRole === "ADMIN" || userRole === "USER") {
     
     config.headers.Authorization = `Bearer ${jwtService.getJwt()}`;
-  }
+  // }
 
   return config;
 });

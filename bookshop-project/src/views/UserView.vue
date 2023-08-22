@@ -1,7 +1,13 @@
 /** This is the page for registered users where thay can see search for and order books. */
 <template>
     <div class="user-view">
-
+    <div class="search-container">
+      <SearchQuery
+      v-model="searchInputValue"
+      placeholderValue="Search query..."
+      @keyup.enter="performSearch"
+      />
+    </div>
      
       <div class="signout-section">
         <SignOut />
@@ -64,7 +70,7 @@ export default defineComponent({
   },
   data() {
     return {
-        query: "",
+        searchInputValue: "",
         books: [] as BookDetails[],
         bookList: [] as BookDetails [],
         role: "",
@@ -76,6 +82,9 @@ export default defineComponent({
     await this.fetchBooks();
   },
   methods: {
+    performSearch() {
+      
+    },
     async fetchBooks() {
       try {
         this.books = await bookService.fetchAll();

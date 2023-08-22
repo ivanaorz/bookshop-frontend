@@ -1,19 +1,12 @@
 /** This is the register page where users can register an account. */
 <template>
-  <div class="register-container">
+  <div class="register-container"> 
     <div class="register-header">
-    <h1 class="register-title">Register</h1>
-     </div>
+    <FormHeaderContainer header="Register"/>
+  </div>
     <!-- <form @submit.prevent="handleSubmit"> -->
     <UsernamePassword :afterSubmit="registerAccount" />
-    <div>
-            <label class="username-label">Username</label>
-            <input class="username" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
-        </div>
-        <div>
-            <label class="password-label">Password</label>
-            <input class="password" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
-        </div>
+
         <p>{{ message }}</p>
 
     <p class="login-link">Already have an account? Sign in <router-link to="/login"> here!</router-link></p>
@@ -25,6 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import FormHeaderContainer from '../components/FormHeaderContainer.vue';
 import UsernamePassword from '../components/UsernamePassword.vue';
 import type { SignupAuthDetails } from '../model/authDetails';
 import authService from '../service/authService';
@@ -33,6 +27,7 @@ export default defineComponent({
 name: 'RegisterView',
 components: {
   UsernamePassword,
+  FormHeaderContainer,
 },
 data() {
     return {
@@ -71,42 +66,30 @@ methods: {
 <style scoped>
 .register-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   align-items: center;
   justify-content: center;
-  height: 50vh;
+  height: 55vh; 
   background-color: lightblue;
-  text-align: center;
-  padding: 20px;
-  width: 50%;
-  border: 2px solid grey;
-}
-
-.register-header {
-  color: white;
-  background-color: darkgrey;
-  padding: 5px;
-  display: flex;
+  width: 50%; 
+  border: 2px solid grey; 
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+ } 
+ .register-header{
   justify-content: center;
-  width: 90%;
-  text-align: center;
-  margin-top: 3px;
-  margin-bottom: 10px;
-  height: 50vh;
-  border: 1px grey;
-}
+  align-content: center;
+  display: flex;
+  margin-top: 15px;
+   margin-bottom: 15px; 
+ }
 
-.register-title {
-  color: white;
-  text-align: center;
-  font-size: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px; 
-}
 
 .login-link {
   text-align: center;
   margin-top: 10px;
+  margin-bottom: 25px;
   font-size: 20px;
 }
 
@@ -114,10 +97,10 @@ methods: {
   width: 50%;
   font-size: 20px;
   padding: 0.25em 1em;
-  margin-bottom: 1em;
+  margin-bottom: 3px;
   display: block;
-  margin: 20px auto; 
   text-align: center;
+  border-radius: 0.3rem;
 }
 </style>
 
