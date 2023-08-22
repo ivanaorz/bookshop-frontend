@@ -1,10 +1,10 @@
 /** This is login page where registered users can log in and those users who are not registered 
      can proceed as guest users. */
 <template>
-    <div class="login-container">
-      <div class="login-header">
-      <h1 class="login-title">Login</h1>
-    </div>
+    <div class="login-container"> 
+    <div class="login-header">
+    <FormHeaderContainer header="Login"/>
+  </div>
       <!-- <form @submit.prevent="handleSubmit"> -->
       <UsernamePassword :afterSubmit="signIn"/>
   
@@ -20,6 +20,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import UsernamePassword from '../components/UsernamePassword.vue';
+import FormHeaderContainer from '../components/FormHeaderContainer.vue';
 import type { SigninAuthDetails } from '../model/authDetails';
 import authService from '../service/authService';
 
@@ -27,6 +28,7 @@ export default defineComponent({
   name: 'LoginView',
   components: {
     UsernamePassword,
+    FormHeaderContainer,
   },
   data() {
     return {
@@ -69,38 +71,24 @@ export default defineComponent({
 <style scoped>
 .login-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   align-items: center;
   justify-content: center;
-  height: 50vh;
+  height: 55vh; 
   background-color: lightblue;
-  text-align: center;
-  padding: 20px;
-  width: 50%;
-  border: 2px solid grey;
-}
-
-.login-header {
-  color: white;
-  background-color: darkgrey;
-  padding: 5px;
-  display: flex;
+  width: 50%; 
+  border: 2px solid grey; 
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+ } 
+ .login-header{
   justify-content: center;
-  width: 90%;
-  text-align: center;
-  margin-top: 3px;
-  margin-bottom: 10px;
-  height: 50vh;
-  border: 1px grey;
-}
-
-.login-title {
-  color: white;
-  text-align: center;
-  font-size: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px; 
-}
+  align-content: center;
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 15px;
+ }
 
 .signup-link {
   text-align: center;
@@ -116,15 +104,16 @@ export default defineComponent({
   display: block;
   margin: 20px auto; 
   text-align: center;
+  border-radius: 0.3rem;
 }
 
 .guest-button {
   width: 50%;
   font-size: 20px;
   padding: 0.25em 1em;
-  margin-bottom: 1em;
+  margin-bottom: 10px;
   display: block;
-  margin: 20px auto; 
   text-align: center;
+  border-radius: 0.3rem;
 }
 </style>

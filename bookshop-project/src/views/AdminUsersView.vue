@@ -1,7 +1,14 @@
 /** This is the admin page where are displayed users. The admin can search for users, see users' list, delete and promote users. */
 <template>
  <div class="admin-users-view">
-
+    <div class="search-container">
+      <SearchQuery
+      v-model="searchInputValue"
+      placeholderValue="Search by username..."
+      @keyup.enter="performSearch"
+      />
+    </div>
+    
 <div class="signout-section">
   <SignOut />
 </div>
@@ -60,7 +67,7 @@ export default defineComponent({
   },
   data() {
     return {
-        query: "",
+        searchInputValue: "",
         users: [] as UserDetails[],
         userList: [] as UserDetails [],
     };
@@ -69,6 +76,9 @@ export default defineComponent({
     this.fetchUsers();
   },
   methods: {
+    performSearch(){
+
+    },
     async fetchUsers() {
       try {
         this.users = await userService.fetchAll();

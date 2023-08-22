@@ -4,6 +4,7 @@
   sends a specific request like GET, POST, PUT, DELETE to the base book URL appended 
   with a specific endpoint to execute a certain action like for example deleting a book,
   getting all books, updating a book */
+  import axios from "axios";
 import tokenAxios from "@/interceptor/tokenAxios";
 import type { BookDetails } from "@/model/bookDetails";
 
@@ -11,12 +12,12 @@ const BASE_BOOK_URL = "http://127.0.0.1:3000/";
 
 export default {
   async fetchAll(): Promise<Array<BookDetails>> {
-    const resp = await tokenAxios.get(BASE_BOOK_URL + "library/books");
+    const resp = await axios.get(BASE_BOOK_URL + "library/books");
     return resp.data;
   },
 
-  async searchBooks(query: string): Promise<Array<BookDetails>> {
-    const resp = await tokenAxios.get(BASE_BOOK_URL + `library/books/search?q=${query}`);
+  async searchBooks(searchInputValue: string): Promise<Array<BookDetails>> {
+    const resp = await tokenAxios.get(BASE_BOOK_URL + `library/books/search?q=${searchInputValue}`);
     return resp.data;
   },
 

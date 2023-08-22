@@ -1,3 +1,12 @@
+<template>
+  <div id="app">
+   <div class="main-container">
+     <AppHeader/>
+ <RouterView />
+</div>
+</div>
+</template>
+
 <script lang="ts">
 import { RouterView } from 'vue-router'
 import { defineComponent } from "vue";
@@ -8,31 +17,18 @@ export default defineComponent({
   components: {
     AppHeader,
   },
-  data() {
-    return {
-      
-    };
-  },
 });
 </script>
 
-<template>
-   <div id="app">
-    
-    <div class="main-container">
-      <AppHeader title="Booksters website" />
-  <RouterView />
-</div>
-</div>
-</template>
-
 <style scoped>
+.app{
+  height: 100vh;
+}
 .main-container {
-  background-color: lightgray;
-  margin: 1cm;
-  padding: 1cm;
+  background-color: white;
+  padding: 0cm;
   align-items: center;
-  border: 3px solid grey;
+  border: 2px solid grey;
   width: 80vw;
   height: 95vh;
 }

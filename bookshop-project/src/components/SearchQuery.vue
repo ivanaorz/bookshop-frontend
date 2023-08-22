@@ -1,48 +1,49 @@
 /** This component was created so that users can search for books. It is imported multiple times. */
+
+
 <template>
-    <div class="search-query">
-      <input
-        class="search-input"
-        type="text"
-        v-model="query"
-        placeholder="Search query..."
-        @keyup.enter="searchBooks"
-      />
-    </div>
-  </template>
+    <input
+      class="search-input-class"
+      type="text"
+     v-model="userInput"
+      :placeholder="placeholderValue"
+    />
+</template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'SearchQuery',
-  data() {
-    return {
-      query: '',
-    };
-  },
-  methods: {
-    searchBooks() {
-      this.$emit('search', this.query);
-    },
-  },
+  props: {
+    userInput: String,
+    placeholderValue: String
+  }
 });
+ 
 </script>
 
 
 <style scoped>
-.search-query {
+.search-input-class {
   width: 50%;
-  margin-bottom: 0.5em;
-  padding: 0.5rem;
+  margin-top: 30px;
+  margin-left: 60px;
+  margin-bottom: 10px;
   background-color: white;
-  height: 5em;
+  height: 4em;
+  border-radius: 5px;
+  border: 3px solid grey;
+  font-size: 20px;
+  color: dark grey;
+  font-family: 'Courier New', serif;
+}
+.search-input-class::placeholder {
+  width: 100%;
+  color: grey;
+  font-size: 25px;
+  margin-left: 20px;
+  padding: 20px;
 }
 
-.search-input {
-  width: 100%;
-  color: black;
-  font-size: 24px;
-  height: 2.5em;
-}
 </style>
