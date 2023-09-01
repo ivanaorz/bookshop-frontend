@@ -1,20 +1,22 @@
 /** This file provides a set of functions responsible for interacting with 
    the server-side API's user-related endpoints. It provides functionality for 
    fetching all users, retrieving user profiles, assigning admin roles to users, and deleting users. */
+
 import tokenAxios from "@/interceptor/tokenAxios";
 import type { UserDetails } from "@/model/userDetails";
+
 
 const BASE_USER_URL = "http://127.0.0.1:3000/";
 
 export default {
     async fetchAll(): Promise<Array<UserDetails>> {
       const resp = await tokenAxios.get(BASE_USER_URL + "admin/users");
-      return resp.data;
+      return resp.data.userDetails;
     },
   
     async getUserProfile(): Promise<UserDetails> {
       const resp = await tokenAxios.get(BASE_USER_URL + "library/profile");
-      return resp.data;
+       return resp.data.user;
     },
   
     async assignAdminRole(username: string): Promise<void> {

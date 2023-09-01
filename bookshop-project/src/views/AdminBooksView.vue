@@ -1,11 +1,6 @@
- <!-- This is the page for registered users where thay can search and order books. -->
+ <!-- On this page, the user with the role ADMIN can search, order, edit and delete books. -->
 <template>
-    <div class="user-view">
-
-      <div class="user-info">
-        <p>Browsing as user</p>
-        </div>
-      
+    <div class="admin-books-view">
     <div class="search-container">
       <SearchQuery
       v-model="searchInputValue"
@@ -16,6 +11,17 @@
      
       <p class="message">{{ message }}</p>
 
+      <div class="books-users-buttons-container">
+      <!-- <button class="add-new-book-button" @click="addNewBook">Add new book</button> -->
+      <button class="users-button" @click="$router.push('/admin/users')">Users</button>
+    </div>
+
+    <EditBookComponent
+    v-if="isEditModalOpen"
+    :book="current"
+    @save="saveBookChanges"
+    @close="closeEditModal"
+  />
       <div v-if="bookList.length !==0">
     <table class="book-table">
 
@@ -25,6 +31,7 @@
             <th>Book author</th>
             <th>Availability</th>
             <th>Order</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -43,6 +50,13 @@
             </div>
           </td>
 
+          <td>
+            <div class="action-section">
+              <button class="edit" @click="editBook(book)">Edit</button>
+              <button class="delete" @click="deleteBook(book.title)">Delete</button>
+            </div>
+          </td>
+
         </tr>
       </tbody>
 
@@ -55,14 +69,31 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SearchQuery from '../components/SearchQuery.vue';
+import SignOut from '../components/SignOut.vue';
+import EditBookComponent from '../components/EditBookComponent.vue';
 import bookService from '../service/bookService';
 import type { BookDetails } from '../model/bookDetails';
+import jwtService from '../service/jwtService';
 import type { UserDetails } from '../model/userDetails';
+
+interface Previous {
+  author: string;
+  title: string;
+  quantity: number;
+  orderCount: number;
+}
+
+interface Current {
+  author: string;
+  title: string;
+  quantity: number;
+  orderCount: number;
+}
 
 export default defineComponent({
   name: 'UserView',
   components: {
-    SearchQuery, 
+    SearchQuery, EditBookComponent
   },
   data() {
     return {
@@ -71,14 +102,21 @@ export default defineComponent({
         bookList: [] as BookDetails [],
         user: {} as UserDetails,
         message: "",
+        title: "",
+        isEditModalOpen: false,
+        previous: {} as Previous,
+        current: {} as Current,
+        jwtProperty: jwtService.getJwt()
+      
     };
   },
 
   async created() {
-    await this.fetchBooks();
+   await this.fetchBooks();
   },
+
   methods: {
-    // Getting the list with books to be displayed.
+    // Getting all the books to be displayed.
     async fetchBooks() {
       try {
         this.bookList = await bookService.fetchAll();
@@ -90,7 +128,7 @@ export default defineComponent({
         console.error('Failed to fetch books:', error);
       }
     },
-    // Searching books in the search field.
+
     performSearch() {
       const searchTerm = this.searchInputValue.trim().toLowerCase();
       if (searchTerm === '') {
@@ -99,20 +137,19 @@ export default defineComponent({
         this.books = this.bookList.filter(
           (book) =>
             book.title.toLowerCase().includes(searchTerm) ||
-            book.author.toLowerCase().includes(searchTerm) 
+            book.author.toLowerCase().includes(searchTerm)
         );
       }
     },
+
     incrementItemCount(book: BookDetails) {
       if (book.quantity > 0) {
     if (book.orderCount < book.quantity) {
       book.orderCount++;
     } else {
-      this.message = 'You cannot order more than the available quantity.';
       console.warn('You cannot order more than the available quantity.');
     }
   } else {
-    this.message = 'This book is out of stock.';
     console.warn('This book is out of stock.');
   }
     },
@@ -122,7 +159,7 @@ export default defineComponent({
         book.orderCount--;
       }
     },
-    // Ordering the book.
+
     async placeOrder(title: string, orderCount: number) {
       try {
         await bookService.purchaseBook(title, orderCount);
@@ -131,22 +168,53 @@ export default defineComponent({
         console.error('Failed to place the order:', error);
       }
     },
-  },
+     
+    // Deleting a book and updating the book list.
+     async deleteBook(title: string,) {
+      try {
+      await bookService.deleteBook(title);
+     this.message = 'The book was deleted';
+     const deletedBook = this.bookList.findIndex((book) => book.title === title);
+    if (deletedBook !== -1) {
+      this.bookList.splice(deletedBook, 1);
+    }
+    this.books = this.bookList.map((book) => ({
+      ...book,
+      orderCount: 0,
+    }));
+    console.log('The book was deleted');
+  } catch (error) {
+    console.error('Failed to delete the book:', error);
+  }
+},
+
+//Gettin ready to edit a book by making a copy of the book
+// and opening the pop up edit modal.
+editBook(book: BookDetails) {
+      this.previous = { ...book }; 
+      this.isEditModalOpen = true;
+    },
+
+    closeEditModal() {
+      this.isEditModalOpen = false;
+    },
+
+    // Updating the book and replacing the previous book with the updated one.
+    async saveBookChanges(current: BookDetails) {
+      try {
+        await bookService.updateBook(this.previous, current);
+        this.fetchBooks();
+        this.isEditModalOpen = false;
+        this.message = 'Book details updated successfully';
+      } catch (error) {
+        console.error('Failed to update book details:', error);
+      }
+    },
+}  
 });
 </script>
 
 <style scoped>
-.user-info {
-  background-color: grey;
-  color: white;
-  padding-left: 10px; 
-  margin-left: 1010px;
-  margin-right: 0px;
-  display: flex;
-  align-content: center;
-  border-radius: 0.3rem;
-  text-align: center;
-}
 
 table {
   width: 100%;
@@ -180,6 +248,20 @@ td {
   width: 50px;
   height: 30px;
   margin-right: 5px;
+  margin-left: 5px;
+}
+
+.action-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.action-section button {
+  padding: 5px;
+  width: 50px;
+  height: 30px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 </style>

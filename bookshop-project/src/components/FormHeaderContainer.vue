@@ -1,3 +1,4 @@
+ <!-- This is a component that provides a container for login and register headers. -->
 <template>
         <header class="form-header-container">
         <h1>{{ header }}</h1>
@@ -18,7 +19,7 @@
   <style>
   .form-header-container{
      background-color: grey;
-      padding: 1rem; 
+     padding: 1rem; 
      display: flex;
      flex-direction: column; 
      border-radius: 0.3rem;

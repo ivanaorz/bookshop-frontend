@@ -9,13 +9,6 @@
       />
     </div>
     
-<div class="signout-section">
-  <SignOut />
-</div>
-
-<div class="search-section">
-  <SearchUsername />
-</div>
 
 <div v-if="userList.length !==0">
       <table class="user-table">
@@ -30,16 +23,16 @@
         </thead>
 
         <tbody>
-            <tr v-for="user in users" :key="user.role">
+            <tr v-for="user in users" :key="user.username">
           <td>{{ user.username }}</td>
           <td>{{ user.role }}</td>
-          <td>{{ user.purchases }}</td>
+          <td>{{ user.purchases.length }}</td>
 
           <td>
             <div class="action-section">
-              <button class="promote" @click="promoteUser(user)">-</button>
+              <button class="promote" @click="promoteUser(user.username)">Promote</button>
             
-              <button class="delete" @click="deleteUser(user)">+</button>
+              <button class="delete" @click="deleteUser(user.username)">Delete</button>
             </div>
           </td>
 
@@ -54,7 +47,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import SearchUsername from '../components/SearchUsername.vue';
+import SearchQuery from '../components/SearchQuery.vue';
 import SignOut from '../components/SignOut.vue';
 import type { UserDetails } from '../model/userDetails';
 import userService from '../service/userService';
@@ -63,41 +56,52 @@ import userService from '../service/userService';
 export default defineComponent({
   name: 'AdminUsersView',
   components: {
-    SearchUsername, SignOut,
+    SearchQuery,
   },
   data() {
     return {
         searchInputValue: "",
         users: [] as UserDetails[],
         userList: [] as UserDetails [],
+        user: {} as UserDetails,
+        username: "",
+        isEditModalOpen: false,
     };
   },
-  created() {
-    this.fetchUsers();
+  async mounted() {
+  this.userList = await userService.fetchAll();
+    this.users = this.userList;
   },
   methods: {
-    performSearch(){
+    async performSearch(){
+      const searchTerm = this.searchInputValue.trim().toLowerCase();
+      if (searchTerm === '') {
+        this.users = this.userList;
+      } else {
+        this.users = this.userList.filter(
+          (user) =>
+            user.username.toLowerCase().includes(searchTerm)
+        );
+      }
 
     },
-    async fetchUsers() {
+   
+    async deleteUser(username: string) {
       try {
-        this.users = await userService.fetchAll();
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
-      }
-    },
-    async deleteUser(user: UserDetails) {
-      try {
-        await userService.deleteUser(user.username);
+        await userService.deleteUser(username);
         console.log('User deleted successfully!');
+        this.userList;
+        this.isEditModalOpen = false;
       } catch (error) {
         console.error('Failed to delete user:', error);
       }
     },
-    async promoteUser(user: UserDetails) {
+    async promoteUser(username: string) {
       try {
-        await userService.assignAdminRole(user.username);
+        await userService.assignAdminRole(username);
         console.log('User promoted successfully!');
+        this.userList;
+        this.isEditModalOpen = false;
       } catch (error) {
         console.error('Failed to promote user:', error);
       }

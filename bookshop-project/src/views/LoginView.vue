@@ -1,33 +1,40 @@
-/** This is login page where registered users can log in and those users who are not registered 
-     can proceed as guest users. */
+ <!-- This is the login page where registered users can log in. Users who are not registered 
+     can proceed as guest users.  -->
 <template>
     <div class="login-container"> 
     <div class="login-header">
     <FormHeaderContainer header="Login"/>
   </div>
-      <!-- <form @submit.prevent="handleSubmit"> -->
-      <UsernamePassword :afterSubmit="signIn"/>
+     
+      <div>
+            <label class="username-label">Username</label>
+            <input class="username-placeholder" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
+        </div>
+        <div>
+            <label class="password-label">Password</label>
+            <input class="password-placeholder" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
+        </div>
   
       <p class="signup-link">No account? Sign up <router-link to="/register">here!</router-link></p>
   
       <button class="signin-button" @click="signIn">Sign in</button>
       <button class="guest-button" @click="proceedAsGuest">Proceed as guest user</button>
-      <!-- </form> -->
+      
 
     </div>
   </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import UsernamePassword from '../components/UsernamePassword.vue';
 import FormHeaderContainer from '../components/FormHeaderContainer.vue';
 import type { SigninAuthDetails } from '../model/authDetails';
 import authService from '../service/authService';
+import jwtService from '../service/jwtService';
+import userService from '../service/userService';
 
 export default defineComponent({
   name: 'LoginView',
   components: {
-    UsernamePassword,
     FormHeaderContainer,
   },
   data() {
@@ -35,31 +42,44 @@ export default defineComponent({
       authDetails: {
         username: '',
         password: '',
+        role: '',
       } as SigninAuthDetails,
-      
+     jwtProperty: jwtService.getJwt()
     };
   },
-  
+
+  // This block is watching for roles to be changed. When they are changed users
+  // are redirected to the respective pages. 
+  watch: {
+    authDetails() {
+      if (this.authDetails.role === 'ADMIN') {
+          this.$router.push('/admin/books');
+        } else if (this.authDetails.role === 'USER') {
+          this.$router.push('/user');
+        }
+    }
+  },
   methods: {
-    async signIn() {
+     signIn() {
       try {
-        await this.handleSignIn();
+        this.handleSignIn();
       } catch (error) {
         console.error('Sign-in failed:', error);
       }
     },
+
+    // By signing in three actions take place:
+    // -getting the token, -logging in and -getting user profile.
     async handleSignIn() {
+    const jwtKey = jwtService.getJwt().accessToken; 
       try {
         const user = await authService.login(this.authDetails);
-        if (user.role === 'ADMIN') {
-          this.$router.push('/admin/books');
-        } else {
-          this.$router.push('/library/books');
-        }
+         this.authDetails = await userService.getUserProfile();
       } catch (error) {
         console.error('Sign-in failed:', error);
       }
     },
+
     async proceedAsGuest() {
       this.$router.push('/guest');
     },
@@ -89,13 +109,11 @@ export default defineComponent({
   margin-top: 15px;
   margin-bottom: 15px;
  }
-
 .signup-link {
   text-align: center;
   margin-top: 10px;
   font-size: 20px;
 }
-
 .signin-button {
   width: 50%;
   font-size: 20px;
@@ -106,7 +124,6 @@ export default defineComponent({
   text-align: center;
   border-radius: 0.3rem;
 }
-
 .guest-button {
   width: 50%;
   font-size: 20px;
@@ -117,3 +134,4 @@ export default defineComponent({
   border-radius: 0.3rem;
 }
 </style>
+

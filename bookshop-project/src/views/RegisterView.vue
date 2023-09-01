@@ -1,32 +1,37 @@
-/** This is the register page where users can register an account. */
+ <!-- This is the register page where users can register an account.  -->
 <template>
   <div class="register-container"> 
     <div class="register-header">
     <FormHeaderContainer header="Register"/>
   </div>
-    <!-- <form @submit.prevent="handleSubmit"> -->
-    <UsernamePassword :afterSubmit="registerAccount" />
+  
+        <div>
+            <label class="username-label">Username</label>
+            <input class="username-placeholder" placeholder="Type your username..." v-model="authDetails.username" type="text"/>
+        </div>
+        <div>
+            <label class="password-label">Password</label>
+            <input class="password-placeholder" placeholder="Enter a password..." v-model="authDetails.password" type="password"/>
+        </div>
 
-        <p>{{ message }}</p>
+        <p class="message">{{ message }}</p>
 
     <p class="login-link">Already have an account? Sign in <router-link to="/login"> here!</router-link></p>
 
     <button class="register-button" @click="registerAccount">Register new account</button>
-    <!-- </form> -->
+    
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import FormHeaderContainer from '../components/FormHeaderContainer.vue';
-import UsernamePassword from '../components/UsernamePassword.vue';
 import type { SignupAuthDetails } from '../model/authDetails';
 import authService from '../service/authService';
 
 export default defineComponent({
 name: 'RegisterView',
 components: {
-  UsernamePassword,
   FormHeaderContainer,
 },
 data() {
@@ -38,28 +43,28 @@ data() {
       message: "",
     };
   },
-
+  
 methods: {
-    async registerAccount() {
-      try {
-        this.message = await authService.register(this.authDetails);
-        if (this.message !== 'The account already exists') {
-          await this.handleSignIn();
-          this.$router.push('/library/books');
+  async registerAccount() {
+    try {
+      if (this.authDetails.username.trim() === '' || this.authDetails.password.trim() === '') {
+        this.message = "Username and password are required"; 
+      } else {
+        const registrationResult = await authService.register(this.authDetails);
+        
+        if (registrationResult === 'The account already exists') {
+          this.message = 'Account already exists with this username';
+        } else {
+           this.message = 'You have successfully registered an account!';
         }
-      } catch (error) {
-        console.error('Registration failed:', error);
       }
-    },
-    async handleSignIn() {
-      try {
-        await authService.login(this.authDetails);
-      } catch (error) {
-        console.error('Sign-in failed:', error);
-      }
-    },
-  },
- 
+    } catch (error) {
+      console.error("An error occurred during registration");
+      this.message = "An error occurred during registration";
+    }
+  }
+},
+
 });
 </script>
 
@@ -84,15 +89,12 @@ methods: {
   margin-top: 15px;
    margin-bottom: 15px; 
  }
-
-
 .login-link {
   text-align: center;
   margin-top: 10px;
   margin-bottom: 25px;
   font-size: 20px;
 }
-
 .register-button {
   width: 50%;
   font-size: 20px;
@@ -102,8 +104,6 @@ methods: {
   text-align: center;
   border-radius: 0.3rem;
 }
+
 </style>
-
-
-
 

@@ -1,4 +1,4 @@
-/** This component is installed globally in the file App.vue in order to be displayed on every page.  */
+ <!-- This component is installed globally in order to be displayed on every page.   -->
 <template>
   <header class="header">
       <h1 class="header-name">Booksters website</h1>
