@@ -1,7 +1,12 @@
-/** This is the guest page - a user that doesn't require to be registered in order to search and see books. */
+ <!-- This is the guest page. The guest user doesn't require to be registered in order to search and see books.  -->
 <template>
     
     <div class="guest-view">
+      <div class="sign-up-and-user-info">
+        <p>Browsing as guest</p>
+        <button class="sign-up-button" @click="signUpButton">Sign up</button>
+        </div>
+
     <div class="search-container">
       <SearchQuery
       v-model="searchInputValue"
@@ -9,11 +14,6 @@
       @keyup.enter="performSearch"
       />
     </div>
-
-      
-      <!-- <div class="signout-section">
-        <SignOut />
-      </div> -->
 
       <div v-if="bookList.length !==0">
     <table class="book-table">
@@ -37,8 +37,6 @@
 
   </table>
   </div>
-
-
    </div> 
   
 </template>
@@ -46,29 +44,24 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SearchQuery from '../components/SearchQuery.vue';
-import SignOut from '../components/SignOut.vue';
 import bookService from '../service/bookService';
 import type { BookDetails } from '../model/bookDetails';
-import axios from "axios";
-import jwtService from '../service/jwtService';
 
 export default defineComponent({
   name: 'GuestView',
   components: {
     SearchQuery, 
-     SignOut,
   },
   data() {
     return {
         searchInputValue: "",
         bookList: [] as BookDetails[],
         books: [] as BookDetails[],
-      
     };
   },
+
    async mounted() {
     this.bookList = await bookService.fetchAll();
-    // console.log('Length of bookList:', this.bookList.length);
     this.books = this.bookList;
    },
 
@@ -84,33 +77,52 @@ export default defineComponent({
           book.author.toLowerCase().includes(searchTerm)
       );
     }
-  }
-  
+  },
+  async signUpButton() {
+      this.$router.push('/register');
+    },
 }
 });
 </script>
 
 
-<style scoped>
+<style scoped> 
 
-
+.sign-up-and-user-info {
+  background-color: grey;
+  color: white;
+  padding-left: 10px; 
+  margin-left: 1010px;
+  margin-right: 0px;
+  display: flex;
+  align-content: center;
+  border-radius: 0.3rem;
+  text-align: center;
+}
+.sign-up-button {
+  width: 30%;
+  font-size: 15px;
+  padding: 0.25em 1em;
+  margin-bottom: 1em;
+  margin-left: 5px;
+  display: flex;
+  margin: 10px auto; 
+  text-align: center;
+  border-radius: 0.3rem;
+}
 .book-table {
   width: 100%;
   display: table;
-  /* justify-content: center; */
   border-collapse: collapse;
 }
-
 .headers {
   background-color: grey;
   color: white;
   font-size: 25px;
   text-align: center;
 }
-
 .th {
   padding: 1px;
-  /* border-bottom: 1px solid #ddd; */
   text-align: center;
   background-color: grey;
   color:white;
@@ -118,7 +130,6 @@ export default defineComponent({
 }
 .td {
   padding: 1px;
-  /* border-bottom: 1px solid #ddd; */
   text-align: center;
   background-color: lightgrey;
   color: grey;

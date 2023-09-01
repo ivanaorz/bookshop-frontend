@@ -1,14 +1,8 @@
 /**This file uses the Vue Router library to create and configure 
-  the application's routing system. It defines the different URLs or routes that 
-  the application can have and specifies which components(Views)
-  should be displayed when the user visits those URLs. There also must be a home route,
-  that is the first page. I made the RegisterView as the initial page of the application.
- */
+  the application's routing system. */
 
-import { createRouter, createWebHistory } from 'vue-router'
-// import AdminBooksEditView from '@/views/AdminBooksEditView.vue';
-// import AdminBooksView from '@/views/AdminBooksView.vue';
-// import AdminUsersEditView from '@/views/AdminUsersEditView.vue';
+import { createRouter, createWebHistory } from 'vue-router' 
+import AdminBooksView from '@/views/AdminBooksView.vue';
 import AdminUsersView from '@/views/AdminUsersView.vue';
 import GuestView from '@/views/GuestView.vue';
 import LoginView from '@/views/LoginView.vue';
@@ -45,26 +39,16 @@ const router = createRouter({
       name: 'user',
       component: UserView
        },
-      //  {
-      // path: '/admin/books',
-      // name: 'adminBooks',
-      // component: AdminBooksView
-      //  },
-      //  {
-      // path: '/admin/books/edit',
-      // name: 'adminBooksEdit',
-      // component: AdminBooksEditView
-      //  },
+       {
+      path: '/admin/books',
+      name: 'adminBooks',
+      component: AdminBooksView
+       },
         {
       path: '/admin/users',
       name: 'adminUsers',
       component: AdminUsersView
        },
-      //  {
-      // path: '/admin/users/edit',
-      // name: 'adminUsersEdit',
-      // component: AdminUsersEditView
-      // }
   ]
 })
 

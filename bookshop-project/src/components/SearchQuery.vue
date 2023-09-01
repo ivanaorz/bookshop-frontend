@@ -1,11 +1,10 @@
-/** This component was created so that users can search for books. It is imported multiple times. */
-
+/** This component provides an input search field. */
 
 <template>
     <input
       class="search-input-class"
       type="text"
-     v-model="userInput"
+      @input="$emit('update:modelValue', $event.target.value)"
       :placeholder="placeholderValue"
     />
 </template>
@@ -17,7 +16,8 @@ export default defineComponent({
   name: 'SearchQuery',
   props: {
     userInput: String,
-    placeholderValue: String
+    placeholderValue: String,
+    modelValue: String
   }
 });
  
